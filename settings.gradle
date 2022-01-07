@@ -1,7 +1,12 @@
 import org.gradle.api.initialization.resolve.RepositoriesMode
 
 pluginManagement {
-    repositories {}
+    repositories {
+        //本地仓库目录
+//        maven{
+//            url  uri('./plugin/build/repo')//指向根目录的下的repo
+//        }
+    }
 }
 
 
