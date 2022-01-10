@@ -8,9 +8,9 @@ plugins {
 }
 
 //仓库地址
-//val MAVEN_NAME = "http://nexus.holderzone.cn/nexus/content/repositories/xseed-plugin/"
+val MAVEN_NAME = "http://nexus.holderzone.cn/nexus/content/repositories/xseed-plugin/"
 //本地仓库
-val MAVEN_NAME = "repo"
+//val MAVEN_NAME = "repo"
 publishing {
     //需要发布的内容
     publications {
@@ -27,14 +27,14 @@ publishing {
     repositories {
         maven {
             //本地仓库
-            url = uri(layout.buildDirectory.dir(MAVEN_NAME))
+//            url = uri(layout.buildDirectory.dir(MAVEN_NAME))
             //maven仓库
-//            url = uri(MAVEN_NAME)
-//            isAllowInsecureProtocol = true
-//            credentials {
-//                username = "admin"
-//                password = "admin123"
-//            }
+            url = uri(MAVEN_NAME)
+            isAllowInsecureProtocol = true
+            credentials {
+                username = "admin"
+                password = "admin123"
+            }
         }
     }
 }
