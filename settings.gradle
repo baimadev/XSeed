@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "XSeed"
-include ':app'
-include ':xseed-plugin'
-include ':xseed-utils'
+include (":app")
+include (":xseed-plugin")
+include (":xseed-utils")
