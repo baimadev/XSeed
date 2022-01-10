@@ -10,7 +10,6 @@ buildscript {
             //本地仓库
 //            setUrl("./repo")
 
-
             isAllowInsecureProtocol = true
         }
     }

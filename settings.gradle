@@ -15,6 +15,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven{
+            //远端仓库
+            setUrl("http://nexus.holderzone.cn/nexus/content/repositories/xseed-plugin/")
+            //本地仓库
+//            setUrl("./repo")
+
+            allowInsecureProtocol = true
+        }
         jcenter() // Warning: this repository is going to shut down soon
     }
 }

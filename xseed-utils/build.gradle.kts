@@ -2,9 +2,8 @@ import com.android.build.gradle.internal.res.processResources
 
 plugins {
     id ("kotlin")
-    kotlin("kapt")
     `maven-publish`
-   // kotlin("jvm")
+    kotlin("jvm")
 }
 
 //仓库地址

@@ -1,7 +1,6 @@
 plugins {
     id ("com.android.application")
     id ("kotlin-android")
-
     id ("xseed-plugin")
 }
 
@@ -42,7 +41,7 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.2.0")
     implementation ("com.google.android.material:material:1.3.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
-    implementation ("com.holerzone.library:xseed-utils:1.0.2")
+    implementation ("com.holderzone.library:xseed-utils:1.0.2")
 
 
     testImplementation(" 'junit:junit:4.+'")
