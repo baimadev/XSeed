@@ -48,21 +48,21 @@ class XSeedMethodVisitor : AdviceAdapter {
         Log.log("进入${name}方法")
         //通过注解是否注入这部分代码
         if (filter) {
-            mv.visitFieldInsn(
-                GETSTATIC,
-                "com/magicbluepenguin/plugin/FileUtils",
-                "INSTANCE",
-                "Lcom/magicbluepenguin/plugin/FileUtils;"
-            )
-            mv.visitVarInsn(ALOAD, 0);
-            mv.visitLdcInsn("CLICK")
-            mv.visitMethodInsn(
-                Opcodes.INVOKEVIRTUAL,
-                "com/magicbluepenguin/plugin/FileUtils",
-                "fileLinesWrite",
-                "(Landroid/content/Context;Ljava/lang/String;)V",
-                false
-            );
+//            mv.visitFieldInsn(
+//                GETSTATIC,
+//                "com/holderzone/library/XseedFileUtils",
+//                "INSTANCE",
+//                "Lcom/holderzone/library/XseedFileUtils;"
+//            )
+//            mv.visitVarInsn(ALOAD, 0);
+//            mv.visitLdcInsn("CLICK")
+//            mv.visitMethodInsn(
+//                Opcodes.INVOKEVIRTUAL,
+//                "com/holderzone/library/XseedFileUtils",
+//                "fileLinesWrite",
+//                "(Ljava/lang/String;)V",
+//                false
+//            );
 
 
             mv.visitLdcInsn("TAG")

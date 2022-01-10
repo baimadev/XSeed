@@ -13,7 +13,7 @@ import java.util.*
  * @Author: leisiyu
  * @CreateDate: 2021/12/29
  */
-object FileUtils {
+object XseedFileUtils {
 
     private const val file ="./log.txt"
 

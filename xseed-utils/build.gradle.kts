@@ -1,9 +1,15 @@
 import com.android.build.gradle.internal.res.processResources
 
 plugins {
+    id ("java-library")
     id ("kotlin")
     `maven-publish`
     kotlin("jvm")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
 }
 
 //仓库地址
@@ -17,7 +23,7 @@ publishing {
         create<MavenPublication>("mavenJava"){
             groupId = "com.holderzone.library"
             artifactId = "xseed-utils"
-            version = "1.0.2"
+            version = "1.0.5"
             //如果是war包填写web，如果是jar包填写java 当前java项目作为发布内容。
             from(components["java"])
         }
@@ -45,9 +51,3 @@ publishing {
 //    }
 //
 //}
-
-dependencies {
-    implementation("com.android.tools.build:gradle:7.0.3")
-    implementation ("androidx.core:core-ktx:1.3.2")
-
-}
