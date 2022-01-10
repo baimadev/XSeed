@@ -1,57 +1,22 @@
-plugins {
-    id ("java-gradle-plugin")
-    `maven-publish`
-    kotlin("jvm")
-}
+import com.android.build.gradle.internal.res.processResources
 
+plugins {
+    id("com.android.library")
+    id ("kotlin-android")
+    `maven-publish`
+    //kotlin("jvm")
+}
 //仓库地址
 //val MAVEN_NAME = "http://nexus.holderzone.cn/nexus/content/repositories/xseed-plugin/"
 //本地仓库
 val MAVEN_NAME = "repo"
-
-gradlePlugin {
-    plugins {
-
-        create("standaloneGradlePlugins"){
-            //插件名
-            id = "xseed-plugin"
-            implementationClass = "com.holderzone.library.xseed_plugin.funcplugin.plugin.XSeedPlugin"
-        }
-    }
-
-}
-
-
-
-dependencies {
-    implementation("com.android.tools.build:gradle:7.0.3")
-    compileOnly("commons-io:commons-io:2.6")
-    compileOnly("commons-codec:commons-codec:1.15")
-    compileOnly("org.ow2.asm:asm-commons:9.2")
-    compileOnly("org.ow2.asm:asm-tree:9.2")
-}
-
-sourceSets {
-    main {
-
-        java {
-            srcDirs("src/main/java")
-        }
-
-        resources {
-            srcDirs("src/main/resources")
-        }
-    }
-}
-
-
 publishing {
     //需要发布的内容
     publications {
         //用于配置要发布的内容
         create<MavenPublication>("mavenJava"){
             groupId = "com.holderzone.library"
-            artifactId = "xseed-plugin"
+            artifactId = "xseed-utils"
             version = "1.0.2"
             //如果是war包填写web，如果是jar包填写java 当前java项目作为发布内容。
             from(components["java"])
@@ -73,12 +38,16 @@ publishing {
     }
 }
 
-tasks {
+//tasks {
+//
+//    processResources {
+//        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+//    }
+//
+//}
 
-    processResources {
-        duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    }
+dependencies {
+
+    implementation ("androidx.core:core-ktx:1.3.2")
 
 }
-
-
