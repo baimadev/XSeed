@@ -1,7 +1,5 @@
 package com.holderzone.library
 
-import android.content.ContentProvider
-import android.content.Context
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException

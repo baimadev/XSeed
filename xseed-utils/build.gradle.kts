@@ -1,11 +1,12 @@
 import com.android.build.gradle.internal.res.processResources
 
 plugins {
-    id("com.android.library")
-    id ("kotlin-android")
+    id ("kotlin")
+    kotlin("kapt")
     `maven-publish`
-    //kotlin("jvm")
+   // kotlin("jvm")
 }
+
 //仓库地址
 //val MAVEN_NAME = "http://nexus.holderzone.cn/nexus/content/repositories/xseed-plugin/"
 //本地仓库
@@ -47,7 +48,7 @@ publishing {
 //}
 
 dependencies {
-
+    implementation("com.android.tools.build:gradle:7.0.3")
     implementation ("androidx.core:core-ktx:1.3.2")
 
 }
