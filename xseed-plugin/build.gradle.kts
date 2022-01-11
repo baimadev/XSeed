@@ -15,7 +15,7 @@ gradlePlugin {
         create("standaloneGradlePlugins"){
             //插件名
             id = "xseed-plugin"
-            implementationClass = "com.holderzone.library.xseed_plugin.funcplugin.plugin.XSeedPlugin"
+            implementationClass = "com.holderzone.library.xseed_plugin.plugin.XSeedPlugin"
         }
     }
 

@@ -1,4 +1,4 @@
-package com.holderzone.library.xseed_plugin.funcplugin.plugin
+package com.holderzone.library.xseed_plugin.plugin
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension

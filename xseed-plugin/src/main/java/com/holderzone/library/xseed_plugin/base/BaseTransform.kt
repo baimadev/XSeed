@@ -1,10 +1,10 @@
-package com.holderzone.library.xseed_plugin.funcplugin.base
+package com.holderzone.library.xseed_plugin.base
 
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.holderzone.library.xseed_plugin.funcplugin.utils.ClassUtils
-import com.holderzone.library.xseed_plugin.funcplugin.utils.DigestUtils
-import com.holderzone.library.xseed_plugin.funcplugin.utils.Log
+import com.holderzone.library.xseed_plugin.utils.ClassUtils
+import com.holderzone.library.xseed_plugin.utils.DigestUtils
+import com.holderzone.library.xseed_plugin.utils.Log
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.objectweb.asm.Type

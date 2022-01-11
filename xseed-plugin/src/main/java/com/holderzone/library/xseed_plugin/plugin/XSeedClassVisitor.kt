@@ -1,4 +1,4 @@
-package com.holderzone.library.xseed_plugin.funcplugin.plugin
+package com.holderzone.library.xseed_plugin.plugin
 
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor

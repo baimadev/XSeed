@@ -1,4 +1,4 @@
-package com.holderzone.library.xseed_plugin.funcplugin.utils
+package com.holderzone.library.xseed_plugin.utils
 
 import java.io.File
 

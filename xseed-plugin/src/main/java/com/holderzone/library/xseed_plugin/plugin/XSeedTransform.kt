@@ -1,6 +1,6 @@
-package com.holderzone.library.xseed_plugin.funcplugin.plugin
+package com.holderzone.library.xseed_plugin.plugin
 
-import com.holderzone.library.xseed_plugin.funcplugin.base.BaseTransform
+import com.holderzone.library.xseed_plugin.base.BaseTransform
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 

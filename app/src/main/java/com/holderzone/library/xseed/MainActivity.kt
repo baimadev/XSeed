@@ -6,7 +6,7 @@ import com.holderzone.library.annotation.XSeedFuncAnnotation
 
 class MainActivity : AppCompatActivity() {
 
-    @XSeedFuncAnnotation
+    @XSeedFuncAnnotation(functionDesc = "")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

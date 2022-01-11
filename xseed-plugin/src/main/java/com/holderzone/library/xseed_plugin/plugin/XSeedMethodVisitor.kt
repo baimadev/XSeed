@@ -1,6 +1,6 @@
-package com.holderzone.library.xseed_plugin.funcplugin.plugin
+package com.holderzone.library.xseed_plugin.plugin
 
-import com.holderzone.library.xseed_plugin.funcplugin.utils.Log
+import com.holderzone.library.xseed_plugin.utils.Log
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
