@@ -1,9 +1,11 @@
-package com.holderzone.library
+package com.holderzone.library.utils
 
+import com.holderzone.library.XSeedClient
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.io.PrintWriter
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,15 +15,9 @@ import java.util.*
  * @Author: leisiyu
  * @CreateDate: 2021/12/29
  */
-object XseedFileUtils {
+object XSeedFileUtils {
 
     private const val file ="./log.txt"
-
-    var filepath =""
-
-    fun init(str:String){
-        filepath = str
-    }
 
     /**
      * 文件数据写入（如果文件夹和文件不存在，则先创建，再写入）
@@ -30,12 +26,15 @@ object XseedFileUtils {
      * @param flag true:如果文件存在且存在内容，则内容换行追加；false:如果文件存在且存在内容，则内容替换
      */
     fun fileLinesWrite(content: String?) {
+        if (XSeedClient.filePath.isEmpty()){
+            throw Exception("filePath not init")
+        }
         val date = Date()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
         val time = dateFormat.format(date)
         var fw: FileWriter? = null
         try {
-            val file = File("${filepath}/log.txt")
+            val file = File("${XSeedClient.filePath}/log.txt")
             //如果文件夹不存在，则创建文件夹
             if (!file.parentFile.exists()) {
                 file.parentFile.mkdirs()
