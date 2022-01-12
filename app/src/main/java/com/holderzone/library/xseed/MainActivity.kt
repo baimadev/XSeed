@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.bt_add_request).setOnClickListener {
             for (i in 0..100) {
-                XSeedClient.createRequestAndEnqueue("test $i")
+                XSeedClient.createRequestAndEnqueue("test")
             }
 
         }

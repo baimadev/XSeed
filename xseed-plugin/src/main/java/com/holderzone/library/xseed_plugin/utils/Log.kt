@@ -16,5 +16,10 @@ object Log {
             println("ASM: $log")
         }
     }
+    fun logAnnotation(log: Any?){
+        logThreadExecutor.submit{
+            println("[ Annotaiton ] :$log")
+        }
+    }
 
 }

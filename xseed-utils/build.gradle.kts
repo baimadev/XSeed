@@ -23,7 +23,7 @@ publishing {
         create<MavenPublication>("mavenJava"){
             groupId = "com.holderzone.library"
             artifactId = "xseed-utils"
-            version = "1.0.5"
+            version = "1.0.6-alpha"
             //如果是war包填写web，如果是jar包填写java 当前java项目作为发布内容。
             from(components["java"])
         }

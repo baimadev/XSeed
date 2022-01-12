@@ -15,7 +15,15 @@ import org.objectweb.asm.commons.AdviceAdapter
 class XSeedMethodVisitor : AdviceAdapter {
     private var config: XSeedConfig? = null
 
+    /**
+     * XSeed注解过滤器
+     */
     var filter = false
+
+    /**
+     * 注解信息临时保存区
+     */
+    var annotationDesc: String = "方法名：$name"
 
     constructor(
         api: Int,
@@ -34,11 +42,22 @@ class XSeedMethodVisitor : AdviceAdapter {
      */
     override fun visitAnnotation(descriptor: String?, visible: Boolean): AnnotationVisitor {
         api
-        if ( config?.formatXSeedAnnotation == descriptor ){
+        if (config?.formatXSeedAnnotation == descriptor) {
             filter = true
+            return object : AnnotationVisitor(ASM7) {
+                /**
+                 * @param name 注解信息名
+                 * @param value 注解信息
+                 */
+                override fun visit(name: String?, value: Any?) {
+                    super.visit(name, value)
+                    annotationDesc += "${name}：${value.toString()}  "
+                }
+            }
         }
         return super.visitAnnotation(descriptor, visible)
     }
+
 
     /**
      * 进入方法回调
@@ -48,33 +67,21 @@ class XSeedMethodVisitor : AdviceAdapter {
         Log.log("进入${name}方法")
         //通过注解是否注入这部分代码
         if (filter) {
-//            mv.visitFieldInsn(
-//                GETSTATIC,
-//                "com/holderzone/library/XseedFileUtils",
-//                "INSTANCE",
-//                "Lcom/holderzone/library/XseedFileUtils;"
-//            )
-//            mv.visitVarInsn(ALOAD, 0);
-//            mv.visitLdcInsn("CLICK")
-//            mv.visitMethodInsn(
-//                Opcodes.INVOKEVIRTUAL,
-//                "com/holderzone/library/XseedFileUtils",
-//                "fileLinesWrite",
-//                "(Ljava/lang/String;)V",
-//                false
-//            );
-
-
-            mv.visitLdcInsn("TAG")
-            mv.visitLdcInsn("CLICK")
+            mv.visitFieldInsn(
+                GETSTATIC,
+                "com/holderzone/library/XSeedClient",
+                "INSTANCE",
+                "Lcom/holderzone/library/XSeedClient;"
+            )
+            mv.visitLdcInsn(annotationDesc)
             mv.visitMethodInsn(
-                Opcodes.INVOKESTATIC,
-                "android/util/Log",
-                "e",
-                "(Ljava/lang/String;Ljava/lang/String;)I",
+                Opcodes.INVOKEVIRTUAL,
+                "com/holderzone/library/XSeedClient",
+                "createRequestAndEnqueue",
+                "(Ljava/lang/String;)V",
                 false
             )
-            mv.visitInsn(Opcodes.POP)
+
         }
 
     }
@@ -87,3 +94,7 @@ class XSeedMethodVisitor : AdviceAdapter {
     }
 
 }
+
+
+
+
