@@ -31,5 +31,4 @@ object ClassUtils {
     fun isLegalClass(fileName: String): Boolean {
         return fileName.endsWith(".class") && !isAndroidGeneratedClass(fileName)
     }
-
 }

@@ -21,5 +21,10 @@ object Log {
             println("[ Annotaiton ] :$log")
         }
     }
+    fun logPre(log: Any?){
+        logThreadExecutor.submit{
+            println("[ ASM-Pre ] :$log")
+        }
+    }
 
 }

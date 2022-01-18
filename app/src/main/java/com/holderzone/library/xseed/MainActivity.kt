@@ -15,10 +15,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.bt_add_request).setOnClickListener {
-            for (i in 0..100) {
-                XSeedClient.createRequestAndEnqueue("test")
-            }
 
         }
+    }
+
+    @XSeedFuncAnnotation(functionDesc = "测试方法", tag = "debug",isSeedParam = true)
+    fun testMethod(param:String , intParam:Int){
+
     }
 }

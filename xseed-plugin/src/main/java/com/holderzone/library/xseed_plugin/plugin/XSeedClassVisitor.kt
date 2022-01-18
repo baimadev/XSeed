@@ -11,6 +11,10 @@ import org.objectweb.asm.Opcodes
  * @CreateDate: 2022/1/10
  */
 class XSeedClassVisitor : ClassVisitor {
+
+    private var owner: String= ""
+
+
     constructor(classVisitor: ClassVisitor) : super(Opcodes.ASM7,classVisitor)
 
     override fun visitMethod(
@@ -26,9 +30,24 @@ class XSeedClassVisitor : ClassVisitor {
             methodVisitor = methodVisitor,
             name = name!!,
             access = access,
+            owner = owner,
             descriptor = descriptor,
             config = XSeedConfig()
         )
     }
 
+    override fun visit(
+        version: Int,
+        access: Int,
+        name: String?,
+        signature: String?,
+        superName: String?,
+        interfaces: Array<out String>?
+    ) {
+        super.visit(version, access, name, signature, superName, interfaces)
+        if (name != null) {
+            this.owner = name
+        }
+
+    }
 }
