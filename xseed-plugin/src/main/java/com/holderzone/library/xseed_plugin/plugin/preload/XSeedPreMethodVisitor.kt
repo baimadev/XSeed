@@ -24,6 +24,7 @@ class XSeedPreMethodVisitor : AdviceAdapter {
     private var config: XSeedConfig? = null
 
     private var parameters: MutableList<Parameter>? = null
+    private var labelList: MutableList<Label>? = null
     /**
      * 存储方法参数的key,方法名+返回值
      */
@@ -62,6 +63,7 @@ class XSeedPreMethodVisitor : AdviceAdapter {
     override fun visitCode() {
         super.visitCode()
         parameters = mutableListOf()
+        labelList = mutableListOf()
     }
 
     /**
@@ -92,7 +94,7 @@ class XSeedPreMethodVisitor : AdviceAdapter {
         super.visitLocalVariable(name, descriptor, signature, start, end, index)
 
         if(filter){
-            if("this" != name){
+            if("this" != name  && start == labelList?.get(0)){
                 val type: Type = Type.getType(descriptor)
                 if (type.sort == Type.OBJECT || type.sort == Type.ARRAY) {
                     parameters?.add(Parameter(name!!, "Ljava/lang/Object;", index))
@@ -101,5 +103,13 @@ class XSeedPreMethodVisitor : AdviceAdapter {
                 }
             }
         }
+    }
+
+
+    override fun visitLabel(label: Label?) {
+        if (label != null) {
+            labelList?.add(label)
+        }
+        super.visitLabel(label)
     }
 }
