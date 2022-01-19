@@ -3,12 +3,13 @@ package com.holderzone.library.xseed_plugin.plugin
 import com.holderzone.library.xseed_plugin.plugin.preload.Parameter
 import com.holderzone.library.xseed_plugin.plugin.preload.XSeedHookHelper
 import com.holderzone.library.xseed_plugin.utils.Log
+import com.holderzone.library.xseed_plugin.utils.OpcodesUtils
 import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Type
 import org.objectweb.asm.commons.AdviceAdapter
-import com.holderzone.library.xseed_plugin.utils.OpcodesUtils
+
 /**
  *
  * @Description:class文件的Method访问器
@@ -21,12 +22,12 @@ class XSeedMethodVisitor : AdviceAdapter {
     /**
      * XSeed注解过滤器
      */
-    var filter = false
+    private var filter = false
 
     /**
      * 注解信息临时保存区
      */
-    var annotationDesc: String = "Method：$name"
+    var annotationDesc: String = "Method：$name {"
 
     /**
      * method owner
@@ -37,6 +38,12 @@ class XSeedMethodVisitor : AdviceAdapter {
      * 方法参数保存区
      */
     private var mParameters: List<Parameter> = mutableListOf()
+
+    /**
+     * isSeedParam 是否需要打印入参列表
+     */
+    private var isSeedParam: Boolean = false
+
 
     constructor(
         api: Int,
@@ -65,9 +72,20 @@ class XSeedMethodVisitor : AdviceAdapter {
                  */
                 override fun visit(name: String?, value: Any?) {
                     super.visit(name, value)
-                    annotationDesc += "${name}：${value.toString()} "
+
+                    if (name != "isSeedParam") {
+                        annotationDesc += "${name}：${value.toString()} "
+                    }else{
+                        isSeedParam = value as Boolean
+                    }
+                }
+
+                override fun visitEnd() {
+                    super.visitEnd()
+                    annotationDesc += "}\n"
                 }
             }
+
         }
         return super.visitAnnotation(descriptor, visible)
     }
@@ -80,7 +98,24 @@ class XSeedMethodVisitor : AdviceAdapter {
         super.onMethodEnter()
         //通过注解是否注入这部分代码
         if (filter) {
-            onHookMethod()
+            if(isSeedParam){
+                onHookMethodParam()
+            }else{
+                visitFieldInsn(
+                    GETSTATIC,
+                    "com/holderzone/library/XSeedClient",
+                    "INSTANCE",
+                    "Lcom/holderzone/library/XSeedClient;"
+                )
+                mv.visitLdcInsn(annotationDesc)
+                visitMethodInsn(
+                    INVOKEVIRTUAL,
+                    "com/holderzone/library/XSeedClient",
+                    "executeMethodLog",
+                    "(Ljava/lang/String;)V",
+                    false
+                )
+            }
         }
 
     }
@@ -94,23 +129,29 @@ class XSeedMethodVisitor : AdviceAdapter {
 
     override fun visitEnd() {
         super.visitEnd()
-//        XSeedHookHelper.instance?.resetOnMethodEnd()
     }
 
     /**
      * 入参统计 com/holderzone/library/utils/ParameterPrinter
      */
-    private fun onHookMethod() {
+    private fun onHookMethodParam() {
         //加载参数列表
         loadParams()
-        val printUtilsVarIndex =newLocal(Type.getObjectType("com/holderzone/library/utils/ParameterPrinter"))
-        println("printUtilsVarIndex---$printUtilsVarIndex parametersize---${mParameters.size+1}")
+        val printUtilsVarIndex =
+            newLocal(Type.getObjectType("com/holderzone/library/utils/ParameterPrinter"))
+        println("printUtilsVarIndex---$printUtilsVarIndex parametersize---${mParameters.size + 1}")
         mv.apply {
             visitTypeInsn(Opcodes.NEW, "com/holderzone/library/utils/ParameterPrinter")
             visitInsn(Opcodes.DUP)
             visitLdcInsn(mOwner)
             visitLdcInsn(name)
-            visitMethodInsn(Opcodes.INVOKESPECIAL,"com/holderzone/library/utils/ParameterPrinter","<init>","(Ljava/lang/String;Ljava/lang/String;)V",false)
+            visitMethodInsn(
+                Opcodes.INVOKESPECIAL,
+                "com/holderzone/library/utils/ParameterPrinter",
+                "<init>",
+                "(Ljava/lang/String;Ljava/lang/String;)V",
+                false
+            )
             visitVarInsn(Opcodes.ASTORE, printUtilsVarIndex)
             mParameters?.forEachIndexed { _, parameter ->
                 Log.log("Parameter List $parameter")
@@ -121,19 +162,53 @@ class XSeedMethodVisitor : AdviceAdapter {
                 )
                 visitPrint(printUtilsVarIndex, parameter.index, opcode, parameter.name, fullyDesc)
             }
-//            visitVarInsn(Opcodes.ALOAD, printUtilsVarIndex)
-//            visitMethodInsn(INVOKEVIRTUAL, "com/holderzone/library/utils/ParameterPrinter", "print", "()Ljava/lang/String;", false)
-            visitFieldInsn(GETSTATIC, "com/holderzone/library/XSeedClient", "INSTANCE", "Lcom/holderzone/library/XSeedClient;")
+            visitFieldInsn(
+                GETSTATIC,
+                "com/holderzone/library/XSeedClient",
+                "INSTANCE",
+                "Lcom/holderzone/library/XSeedClient;"
+            )
             visitTypeInsn(NEW, "java/lang/StringBuilder")
             visitInsn(DUP)
             visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V", false)
+
             visitLdcInsn(annotationDesc)
-            visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false)
+            visitMethodInsn(
+                INVOKEVIRTUAL,
+                "java/lang/StringBuilder",
+                "append",
+                "(Ljava/lang/String;)Ljava/lang/StringBuilder;",
+                false
+            )
             visitVarInsn(Opcodes.ALOAD, printUtilsVarIndex)
-            visitMethodInsn(INVOKEVIRTUAL, "com/holderzone/library/utils/ParameterPrinter", "print", "()Ljava/lang/String;", false)
-            visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false)
-            visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false)
-            visitMethodInsn(INVOKEVIRTUAL, "com/holderzone/library/XSeedClient", "executeMethodLog", "(Ljava/lang/String;)V", false)
+            visitMethodInsn(
+                INVOKEVIRTUAL,
+                "com/holderzone/library/utils/ParameterPrinter",
+                "print",
+                "()Ljava/lang/String;",
+                false
+            )
+            visitMethodInsn(
+                INVOKEVIRTUAL,
+                "java/lang/StringBuilder",
+                "append",
+                "(Ljava/lang/String;)Ljava/lang/StringBuilder;",
+                false
+            )
+            visitMethodInsn(
+                INVOKEVIRTUAL,
+                "java/lang/StringBuilder",
+                "toString",
+                "()Ljava/lang/String;",
+                false
+            )
+            visitMethodInsn(
+                INVOKEVIRTUAL,
+                "com/holderzone/library/XSeedClient",
+                "executeMethodLog",
+                "(Ljava/lang/String;)V",
+                false
+            )
 
         }
     }

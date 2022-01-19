@@ -108,7 +108,7 @@ class ParameterPrinter(tag: String, methodName: String?) {
     }
 
     fun print() : String{
-        result.append("]")
+        result.append("]\n")
         println(result.toString())
         return result.toString()
     }

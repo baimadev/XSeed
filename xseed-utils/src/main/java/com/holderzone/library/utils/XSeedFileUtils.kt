@@ -48,7 +48,7 @@ object XSeedFileUtils {
             e.printStackTrace()
         }
         val pw = fw?.let { PrintWriter(it) }
-        pw?.println("${time}->>>>$content")
+        pw?.println("${time}-----> $content")
         pw?.flush()
         try {
             fw?.flush()
