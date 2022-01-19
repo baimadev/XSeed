@@ -107,9 +107,10 @@ class ParameterPrinter(tag: String, methodName: String?) {
         }
     }
 
-    fun print() {
+    fun print() : String{
         result.append("]")
         println(result.toString())
+        return result.toString()
     }
 
     companion object {
