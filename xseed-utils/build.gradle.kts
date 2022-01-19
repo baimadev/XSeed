@@ -1,11 +1,33 @@
-import com.android.build.gradle.internal.res.processResources
 
 plugins {
-    id ("java-library")
-    id ("kotlin")
+    id("com.android.library")
+    kotlin("android")
+    //kotlin("jvm")
     `maven-publish`
-    kotlin("jvm")
 }
+
+android {
+
+    compileSdk = 30
+    buildToolsVersion = "30.0.3"
+
+    defaultConfig {
+        minSdk = 21
+        targetSdk = 30
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_7
@@ -17,15 +39,18 @@ val MAVEN_NAME = "http://nexus.holderzone.cn/nexus/content/repositories/xseed-pl
 //本地仓库
 //val MAVEN_NAME = "repo"
 publishing {
+
     //需要发布的内容
     publications {
+
         //用于配置要发布的内容
-        create<MavenPublication>("mavenJava"){
+        create<MavenPublication>("production") {
             groupId = "com.holderzone.library"
             artifactId = "xseed-utils"
-            version = "1.0.8-alpha"
+            version = "1.0.9-alpha"
             //如果是war包填写web，如果是jar包填写java 当前java项目作为发布内容。
-            from(components["java"])
+            //from(components["java"])
+            afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
         }
     }
     //目标仓库
@@ -43,11 +68,3 @@ publishing {
         }
     }
 }
-
-//tasks {
-//
-//    processResources {
-//        duplicatesStrategy = DuplicatesStrategy.INCLUDE
-//    }
-//
-//}

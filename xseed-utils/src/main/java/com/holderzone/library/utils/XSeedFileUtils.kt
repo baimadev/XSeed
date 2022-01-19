@@ -17,15 +17,13 @@ import java.util.*
  */
 object XSeedFileUtils {
 
-    private const val file ="./log.txt"
-
     /**
      * 文件数据写入（如果文件夹和文件不存在，则先创建，再写入）
      * @param filePath
      * @param content
      * @param flag true:如果文件存在且存在内容，则内容换行追加；false:如果文件存在且存在内容，则内容替换
      */
-    fun fileLinesWrite(content: String?) {
+    fun fileLinesWrite(content: String?,path:String) {
         if (XSeedClient.filePath.isEmpty()){
             throw Exception("filePath not init")
         }
@@ -34,7 +32,7 @@ object XSeedFileUtils {
         val time = dateFormat.format(date)
         var fw: FileWriter? = null
         try {
-            val file = File("${XSeedClient.filePath}/log.txt")
+            val file = File(path)
             //如果文件夹不存在，则创建文件夹
             if (!file.parentFile.exists()) {
                 file.parentFile.mkdirs()

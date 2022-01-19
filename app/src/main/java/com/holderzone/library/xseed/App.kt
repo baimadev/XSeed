@@ -7,6 +7,6 @@ import com.holderzone.library.utils.XSeedFileUtils
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        this.externalCacheDir?.let { XSeedClient.init(it.path) }
+       XSeedClient.init(this)
     }
 }

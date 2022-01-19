@@ -5,9 +5,9 @@ import java.io.InterruptedIOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.RejectedExecutionException
 
-public class XSeedRequest private constructor(val content:String) : Runnable{
+public class XSeedRequest private constructor(val content:String,val filePath:String) : Runnable{
 
-    private constructor(builder:Builder):this(builder.content)
+    private constructor(builder:Builder):this(builder.content,builder.filePath)
 
 
     class Builder private constructor(){
@@ -17,13 +17,13 @@ public class XSeedRequest private constructor(val content:String) : Runnable{
         }
 
         lateinit var content: String
+        lateinit var filePath: String
 
-        fun setContent(init: Builder.() -> String) = apply { content = init() }
         fun build() = XSeedRequest(this)
     }
 
     override fun run() {
-        XSeedFileUtils.fileLinesWrite(content)
+        XSeedFileUtils.fileLinesWrite(content,filePath)
     }
 
     fun enqueue() {
