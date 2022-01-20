@@ -210,52 +210,6 @@ abstract class BaseTransform : Transform() {
         }
     }
 
-    /**
-     * 处理class文件
-     */
-//    private fun modifyClassFile(
-//        classFile: File,
-//        srcDirPath: String,
-//        destDirPath: String,
-//        temporaryDir: File
-//    ) {
-//        Log.log("处理 class： " + classFile.absoluteFile)
-//        //最终文件应该存放的路径
-//        val destFilePath = classFile.absolutePath.replace(srcDirPath, destDirPath)
-//        val destFile = File(destFilePath)
-//        if (destFile.exists()) {
-//            destFile.delete()
-//        }
-//        //拿到修改后的临时文件
-//        val modifyClassFile = if (ClassUtils.isLegalClass(classFile)) {
-//            modifyClass(classFile, temporaryDir)
-//        } else {
-//            null
-//        }
-//        //将修改结果保存到目标路径
-//        FileUtils.copyFile(modifyClassFile ?: classFile, destFile)
-//        modifyClassFile?.delete()
-//    }
-
-
-
-
-
-//    private fun modifyClass(classFile: File, temporaryDir: File): File {
-//        val byteArray = IOUtils.toByteArray(FileInputStream(classFile))
-//        //修改Class文件
-//        val modifiedByteArray = modifyClass(byteArray)
-//        //重新将Class文件写入到相应位置
-//        val modifiedFile = File(temporaryDir, DigestUtils.generateClassFileName(classFile))
-//        if (modifiedFile.exists()) {
-//            modifiedFile.delete()
-//        }
-//        modifiedFile.createNewFile()
-//        val fos = FileOutputStream(modifiedFile)
-//        fos.write(modifiedByteArray)
-//        fos.close()
-//        return modifiedFile
-//    }
 
     protected fun getVisitPosition(
         argumentTypes: Array<Type>,
@@ -289,8 +243,7 @@ abstract class BaseTransform : Transform() {
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
         return mutableSetOf(
             QualifiedContent.Scope.PROJECT,
-            QualifiedContent.Scope.SUB_PROJECTS,
-            QualifiedContent.Scope.EXTERNAL_LIBRARIES
+            QualifiedContent.Scope.SUB_PROJECTS
         )
     }
 

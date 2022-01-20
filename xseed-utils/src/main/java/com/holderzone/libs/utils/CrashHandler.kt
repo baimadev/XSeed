@@ -1,8 +1,8 @@
-package com.holderzone.library.utils
+package com.holderzone.libs.utils
 
 import android.content.Context
 import android.util.Log
-import com.holderzone.library.XSeedClient
+import com.holderzone.libs.XSeedClient
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.io.Writer

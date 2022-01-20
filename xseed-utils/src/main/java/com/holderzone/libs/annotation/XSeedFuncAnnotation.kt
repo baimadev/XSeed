@@ -1,4 +1,4 @@
-package com.holderzone.library.annotation
+package com.holderzone.libs.annotation
 
 /**
  *

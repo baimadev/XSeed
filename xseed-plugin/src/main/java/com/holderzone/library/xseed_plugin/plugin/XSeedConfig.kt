@@ -9,7 +9,7 @@ package com.holderzone.library.xseed_plugin.plugin
 /**
  * @param xSeedAnnotation 注解名全路径
  */
-class XSeedConfig( private val xSeedAnnotation: String = "com.holderzone.library.annotation.XSeedFuncAnnotation"){
+class XSeedConfig( private val xSeedAnnotation: String = "com.holderzone.libs.annotation.XSeedFuncAnnotation"){
 
     val formatXSeedAnnotation: String
         get() = "L" + xSeedAnnotation.replace(".", "/") + ";"

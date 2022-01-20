@@ -27,7 +27,6 @@ object AppTransformExecutor {
      * 预加载获取实际参数后进行class文件处理
      */
     private fun hookClass(filePath:String) {
-        Log.log("hookClass---Start")
         val reader = ClassReader(FileInputStream(filePath))
         val writer = ClassWriter(reader,ClassWriter.COMPUTE_MAXS)
         val classVisitor = XSeedClassVisitor(writer)
@@ -41,7 +40,6 @@ object AppTransformExecutor {
      * 预加载Class文件获取Method入参
      */
     private fun hookClassPre(filePath:String) {
-        Log.logPre("hookClassPre---Start")
         val reader = ClassReader(FileInputStream(File(filePath)))
         val writer =  ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
 

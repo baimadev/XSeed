@@ -1,18 +1,18 @@
-package com.holderzone.library
+package com.holderzone.libs
 
-import com.holderzone.library.utils.XSeedFileUtils
+import com.holderzone.libs.utils.XSeedFileUtils
 import java.io.InterruptedIOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.RejectedExecutionException
 
 public class XSeedRequest private constructor(val content:String,val filePath:String) : Runnable{
 
-    private constructor(builder:Builder):this(builder.content,builder.filePath)
+    private constructor(builder: Builder):this(builder.content,builder.filePath)
 
 
     class Builder private constructor(){
 
-        constructor(init:Builder.() -> Unit):this(){
+        constructor(init: Builder.() -> Unit):this(){
             init()
         }
 

@@ -72,7 +72,6 @@ class XSeedMethodVisitor : AdviceAdapter {
                  */
                 override fun visit(name: String?, value: Any?) {
                     super.visit(name, value)
-
                     if (name != "isSeedParam") {
                         annotationDesc += "${name}：${value.toString()} "
                     }else{
@@ -103,14 +102,14 @@ class XSeedMethodVisitor : AdviceAdapter {
             }else{
                 visitFieldInsn(
                     GETSTATIC,
-                    "com/holderzone/library/XSeedClient",
+                    "com/holderzone/libs/XSeedClient",
                     "INSTANCE",
-                    "Lcom/holderzone/library/XSeedClient;"
+                    "Lcom/holderzone/libs/XSeedClient;"
                 )
                 mv.visitLdcInsn(annotationDesc)
                 visitMethodInsn(
                     INVOKEVIRTUAL,
-                    "com/holderzone/library/XSeedClient",
+                    "com/holderzone/libs/XSeedClient",
                     "executeMethodLog",
                     "(Ljava/lang/String;)V",
                     false
@@ -132,22 +131,22 @@ class XSeedMethodVisitor : AdviceAdapter {
     }
 
     /**
-     * 入参统计 com/holderzone/library/utils/ParameterPrinter
+     * 入参统计 com/holderzone/libs/utils/ParameterPrinter
      */
     private fun onHookMethodParam() {
         //加载参数列表
         loadParams()
         val printUtilsVarIndex =
-            newLocal(Type.getObjectType("com/holderzone/library/utils/ParameterPrinter"))
+            newLocal(Type.getObjectType("com/holderzone/libs/utils/ParameterPrinter"))
         println("printUtilsVarIndex---$printUtilsVarIndex parametersize---${mParameters.size + 1}")
         mv.apply {
-            visitTypeInsn(Opcodes.NEW, "com/holderzone/library/utils/ParameterPrinter")
+            visitTypeInsn(Opcodes.NEW, "com/holderzone/libs/utils/ParameterPrinter")
             visitInsn(Opcodes.DUP)
             visitLdcInsn(mOwner)
             visitLdcInsn(name)
             visitMethodInsn(
                 Opcodes.INVOKESPECIAL,
-                "com/holderzone/library/utils/ParameterPrinter",
+                "com/holderzone/libs/utils/ParameterPrinter",
                 "<init>",
                 "(Ljava/lang/String;Ljava/lang/String;)V",
                 false
@@ -157,16 +156,16 @@ class XSeedMethodVisitor : AdviceAdapter {
                 Log.log("Parameter List $parameter")
                 val opcode = OpcodesUtils.getLoadOpcodeFromDesc(parameter.desc)
                 val fullyDesc = String.format(
-                    "(Ljava/lang/String;%s)Lcom/holderzone/library/utils/ParameterPrinter;",
+                    "(Ljava/lang/String;%s)Lcom/holderzone/libs/utils/ParameterPrinter;",
                     parameter.desc
                 )
                 visitPrint(printUtilsVarIndex, parameter.index, opcode, parameter.name, fullyDesc)
             }
             visitFieldInsn(
                 GETSTATIC,
-                "com/holderzone/library/XSeedClient",
+                "com/holderzone/libs/XSeedClient",
                 "INSTANCE",
-                "Lcom/holderzone/library/XSeedClient;"
+                "Lcom/holderzone/libs/XSeedClient;"
             )
             visitTypeInsn(NEW, "java/lang/StringBuilder")
             visitInsn(DUP)
@@ -183,7 +182,7 @@ class XSeedMethodVisitor : AdviceAdapter {
             visitVarInsn(Opcodes.ALOAD, printUtilsVarIndex)
             visitMethodInsn(
                 INVOKEVIRTUAL,
-                "com/holderzone/library/utils/ParameterPrinter",
+                "com/holderzone/libs/utils/ParameterPrinter",
                 "print",
                 "()Ljava/lang/String;",
                 false
@@ -204,7 +203,7 @@ class XSeedMethodVisitor : AdviceAdapter {
             )
             visitMethodInsn(
                 INVOKEVIRTUAL,
-                "com/holderzone/library/XSeedClient",
+                "com/holderzone/libs/XSeedClient",
                 "executeMethodLog",
                 "(Ljava/lang/String;)V",
                 false
@@ -229,7 +228,7 @@ class XSeedMethodVisitor : AdviceAdapter {
             visitVarInsn(opcode, localIndex)
             visitMethodInsn(
                 Opcodes.INVOKEVIRTUAL,
-                "com/holderzone/library/utils/ParameterPrinter",
+                "com/holderzone/libs/utils/ParameterPrinter",
                 "append",
                 desc,
                 false

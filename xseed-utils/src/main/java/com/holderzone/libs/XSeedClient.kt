@@ -1,7 +1,7 @@
-package com.holderzone.library
+package com.holderzone.libs
 
 import android.content.Context
-import com.holderzone.library.utils.CrashHandler
+import com.holderzone.libs.utils.CrashHandler
 
 object XSeedClient {
 
@@ -18,21 +18,19 @@ object XSeedClient {
     }
 
     fun executeMethodLog(str: String){
-        XSeedRequest
-            .Builder {
-                content = str
-                filePath = "${XSeedClient.filePath}/method_log.txt"
-            }
+        XSeedRequest.Builder {
+            content = str
+            filePath = "${XSeedClient.filePath}/method_log.txt"
+        }
             .build()
             .enqueue()
     }
 
     fun executeCrashLog(str: String){
-        XSeedRequest
-            .Builder {
-                content = str
-                filePath = "${XSeedClient.filePath}/crash_log.txt"
-            }
+        XSeedRequest.Builder {
+            content = str
+            filePath = "${XSeedClient.filePath}/crash_log.txt"
+        }
             .build()
             .enqueue()
     }

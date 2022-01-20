@@ -1,4 +1,4 @@
-package com.holderzone.library.utils
+package com.holderzone.libs.utils
 
 import java.lang.StringBuilder
 

@@ -1,4 +1,4 @@
-package com.holderzone.library
+package com.holderzone.libs
 
 import java.util.*
 import java.util.concurrent.*
@@ -10,7 +10,7 @@ class Dispatcher {
 
     private val readyXSeedRequest: Queue<XSeedRequest> = LinkedList<XSeedRequest>()
 
-    private var runningXSeedRequest:XSeedRequest? = null
+    private var runningXSeedRequest: XSeedRequest? = null
 
     fun enqueue(XSeedRequest: XSeedRequest) {
         synchronized(this) {

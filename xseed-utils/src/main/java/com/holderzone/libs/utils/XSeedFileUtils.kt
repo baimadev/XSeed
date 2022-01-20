@@ -1,6 +1,6 @@
-package com.holderzone.library.utils
+package com.holderzone.libs.utils
 
-import com.holderzone.library.XSeedClient
+import com.holderzone.libs.XSeedClient
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
