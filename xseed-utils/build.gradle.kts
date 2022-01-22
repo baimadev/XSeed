@@ -47,7 +47,7 @@ publishing {
         create<MavenPublication>("production") {
             groupId = "com.holderzone.library"
             artifactId = "xseed-utils"
-            version = "1.2.3-alpha"
+            version = "1.2.5"
             //如果是war包填写web，如果是jar包填写java 当前java项目作为发布内容。
             //from(components["java"])
             afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }

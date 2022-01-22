@@ -1,5 +1,6 @@
 package com.holderzone.library.xseed_plugin.plugin
 
+import com.holderzone.library.xseed_plugin.plugin.preload.XSeedHookHelper
 import com.holderzone.library.xseed_plugin.plugin.preload.XSeedPreClassVisitor
 import com.holderzone.library.xseed_plugin.utils.Log
 import org.objectweb.asm.ClassReader
@@ -19,7 +20,11 @@ object AppTransformExecutor {
     fun modifyClassPath(dirPath: String){
         if (!dirPath.endsWith(".class")) return
         hookClassPre(dirPath)
-        hookClass(dirPath)
+        XSeedHookHelper.instance?.mClassList?.forEach { dirPath ->
+            hookClass(dirPath)
+        }
+        XSeedHookHelper.instance?.mClassList?.clear()
+
 
     }
 
@@ -27,6 +32,8 @@ object AppTransformExecutor {
      * 预加载获取实际参数后进行class文件处理
      */
     private fun hookClass(filePath:String) {
+        Log.log("Thread---->${Thread.currentThread().name}classFilePath -> $filePath")
+
         val reader = ClassReader(FileInputStream(filePath))
         val writer = ClassWriter(reader,ClassWriter.COMPUTE_MAXS)
         val classVisitor = XSeedClassVisitor(writer)
@@ -40,11 +47,12 @@ object AppTransformExecutor {
      * 预加载Class文件获取Method入参
      */
     private fun hookClassPre(filePath:String) {
+        Log.logPre("Thread---->${Thread.currentThread().name} classFilePath -> $filePath")
         val reader = ClassReader(FileInputStream(File(filePath)))
         val writer =  ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
 
         //预处理ClassVisitor
-        val preAdapter = XSeedPreClassVisitor(writer)
+        val preAdapter = XSeedPreClassVisitor(writer,filePath)
         reader.accept(preAdapter, ClassReader.EXPAND_FRAMES)
     }
 }

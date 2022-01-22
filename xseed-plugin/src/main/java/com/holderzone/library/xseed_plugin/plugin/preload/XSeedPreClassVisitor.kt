@@ -2,6 +2,7 @@ package com.holderzone.library.xseed_plugin.plugin.preload
 
 import com.holderzone.library.xseed_plugin.plugin.XSeedConfig
 import com.holderzone.library.xseed_plugin.plugin.XSeedMethodVisitor
+import org.objectweb.asm.AnnotationVisitor
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
@@ -16,7 +17,15 @@ import java.awt.datatransfer.ClipboardOwner
 class XSeedPreClassVisitor : ClassVisitor {
     private lateinit var owner: String
 
-    constructor(classVisitor: ClassVisitor) : super(Opcodes.ASM7,classVisitor)
+    private var classFilter:Boolean =false
+
+    private val config:XSeedConfig by lazy { XSeedConfig() }
+
+    private var classPath:String = ""
+
+    constructor(classVisitor: ClassVisitor,classPath:String) : super(Opcodes.ASM7,classVisitor){
+        this.classPath = classPath
+    }
 
     override fun visit(
         version: Int,
@@ -50,4 +59,13 @@ class XSeedPreClassVisitor : ClassVisitor {
             config = XSeedConfig()
         )
     }
+
+    override fun visitAnnotation(descriptor: String?, visible: Boolean): AnnotationVisitor {
+        if(config.formatXSeedClassAnnotation == descriptor){
+            classFilter = true
+            XSeedHookHelper.instance?.mClassList?.add(classPath)
+        }
+        return super.visitAnnotation(descriptor, visible)
+    }
+
 }
