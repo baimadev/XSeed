@@ -3,9 +3,7 @@ package com.holderzone.library.xseed
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.holderzone.library.XSeedClient
-import com.holderzone.library.XSeedRequest
-import com.holderzone.library.annotation.XSeedFuncAnnotation
+import com.holderzone.libs.XSeedClient
 
 class MainActivity : AppCompatActivity() {
 

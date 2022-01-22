@@ -15,7 +15,7 @@ class XSeedHookHelper private constructor() {
     private val mMethodParametersMap: MutableMap<String, List<Parameter>>
 
     //预加载需要加载的ClassPath
-    val mClassList:MutableList<String> = mutableListOf()
+    var isNeedHookClass:Boolean = false
 
     fun putMethodParams(key: String, value: List<Parameter>) {
         mMethodParametersMap[key] = value

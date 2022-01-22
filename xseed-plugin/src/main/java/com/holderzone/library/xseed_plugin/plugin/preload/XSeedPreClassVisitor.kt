@@ -63,7 +63,7 @@ class XSeedPreClassVisitor : ClassVisitor {
     override fun visitAnnotation(descriptor: String?, visible: Boolean): AnnotationVisitor {
         if(config.formatXSeedClassAnnotation == descriptor){
             classFilter = true
-            XSeedHookHelper.instance?.mClassList?.add(classPath)
+            XSeedHookHelper.instance?.isNeedHookClass = true
         }
         return super.visitAnnotation(descriptor, visible)
     }

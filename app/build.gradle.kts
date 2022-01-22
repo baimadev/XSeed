@@ -41,7 +41,7 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.2.0")
     implementation ("com.google.android.material:material:1.3.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
-    implementation ("com.holderzone.library:xseed-utils:1.0.9-alpha")
+    implementation ("com.holderzone.library:xseed-utils:1.2.5")
     //implementation(project(":xseed-utils"))
 
     testImplementation(" 'junit:junit:4.+'")

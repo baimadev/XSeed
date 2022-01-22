@@ -20,10 +20,11 @@ object AppTransformExecutor {
     fun modifyClassPath(dirPath: String){
         if (!dirPath.endsWith(".class")) return
         hookClassPre(dirPath)
-        XSeedHookHelper.instance?.mClassList?.forEach { dirPath ->
+        if (XSeedHookHelper.instance?.isNeedHookClass == true){
             hookClass(dirPath)
+            XSeedHookHelper.instance?.isNeedHookClass =false
         }
-        XSeedHookHelper.instance?.mClassList?.clear()
+
 
 
     }

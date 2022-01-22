@@ -10,9 +10,8 @@ import org.apache.commons.io.IOUtils
 import org.objectweb.asm.Type
 import java.io.File
 import java.io.FileOutputStream
-import java.util.concurrent.Callable
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.ForkJoinPool
+import java.sql.Time
+import java.util.concurrent.*
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
 import java.util.jar.JarOutputStream
@@ -24,8 +23,7 @@ import java.util.jar.JarOutputStream
  */
 abstract class BaseTransform : Transform() {
 
-    private val executorService: ExecutorService = ForkJoinPool.commonPool()
-
+    private val executorService :ThreadPoolExecutor = ThreadPoolExecutor(64,0,0,TimeUnit.SECONDS,LinkedBlockingQueue())
     private val taskList = mutableListOf<Callable<Unit>>()
 
     override fun transform(transformInvocation: TransformInvocation) {
@@ -41,14 +39,12 @@ abstract class BaseTransform : Transform() {
         }
         inputs.forEach { input ->
             input.jarInputs.forEach { jarInput ->
-                submitTask {
-                    forEachJar(jarInput, outputProvider, context, isIncremental)
-                }
+                forEachJar(jarInput, outputProvider, context, isIncremental)
             }
             input.directoryInputs.forEach { dirInput ->
-                submitTask {
-                    forEachDirectory(dirInput, outputProvider, context, isIncremental)
-                }
+
+                forEachDirectory(dirInput, outputProvider, context, isIncremental)
+
             }
         }
         val taskListFeature = executorService.invokeAll(taskList)
@@ -174,6 +170,7 @@ abstract class BaseTransform : Transform() {
         FileUtils.forceMkdir(dest)
         if (isIncremental) {
             val changedFilesMap = directoryInput.changedFiles
+            //遍历改变的class文件
             for (mutableEntry in changedFilesMap) {
                 val classFile = mutableEntry.key
                 when (mutableEntry.value) {
@@ -195,7 +192,10 @@ abstract class BaseTransform : Transform() {
                         /**
                          * 修改class文件实现插桩代码
                          */
-                        modifyClassFile(classFile, srcDirPath, dest, dir)
+                        submitTask {
+                            modifyClassFile(classFile, srcDirPath, dest, dir)
+                        }
+
                     }
                     else -> {
                         continue
@@ -205,7 +205,9 @@ abstract class BaseTransform : Transform() {
         } else {
             directoryInput.file.walkTopDown().filter { it.isFile }
                 .forEach { classFile ->
-                    modifyClassFile(classFile, srcDirPath, dest, dir)
+                    submitTask {
+                        modifyClassFile(classFile, srcDirPath, dest, dir)
+                    }
                 }
         }
     }
