@@ -23,8 +23,8 @@ fun login(userAccount:String){
 
 ## 设计思路
 
-XSeed分为两个模块，XSeed-Plugin和XSeed，其中XSeed-Plugin模块是字节码插桩的实现模块，XSeed模块是插入方法的实现模块。
-
+XSeed分为两个模块，XSeed-Plugin和XSeed-utils，其中XSeed-Plugin模块是字节码插桩的实现模块，XSeed-utils模块是插入方法的实现模块。
+目前该框架会生成两个记录文件：method_log.txt（业务行为埋点记录文件）、 crash_log.txt（App崩溃信息记录文件）
 ### XSeed-Plugin
 
 XSeed-Plugin的字节码插桩实现步骤：
@@ -34,10 +34,10 @@ XSeed-Plugin的字节码插桩实现步骤：
 - 解析注解信息
 - 通过ASM插入埋点字节码
 
-此外为了提高编译效率，采用增量编译和并发编译方案，提高编译速度。  
+此外为了提高编译效率，采用增量编译和并发编译方案，提高编译速度,并且为了获取用户调用实参信息，通过预加载的形式,将相应的实参在插入点动态写入文件，并且在预加载时将需要扫描的class文件路径保存，从而节省编译时间。  
 此模块将单独打包为Gradle Plugin。  
 
-### XSeed
+### XSeed-utils
 
 此模块实现埋点功能，主要实现埋点信息存储。  
 初版暂时实现埋点行为分类、存储到本地的功能，后期实现埋点信息上传。
